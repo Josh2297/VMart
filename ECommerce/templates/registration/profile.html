@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% block content %}
+<br/>
+<h3>Profile Page</h3><br/>
+{% if request.user.is_authenticated %}
+    <p><em>Profile Picture:        </em><t><img src="{{request.user.profile_picture.url}}" width=100,height=100 /></t></p><br/>
+    <p><em>Name: </em><strong>{{request.user.username}}</strong></p><br/>
+    <p><em>First Name: </em><strong>{{request.user.first_name}}</strong></p><br/>
+    <p><em>Last Name: </em><strong>{{request.user.last_name}}</strong></p><br/>
+    <p><em>Email: </em><strong>{{request.user.email}}</strong></p><br/>
+    <p><em>Last Login: </em><strong>{{request.user.last_login}}</strong></p><br/>
+    <p><em>Home Address: </em><strong>{{request.user.home_address| default:None}}</strong></p><br/>
+    {% if request.user.birth_cert %}
+    <p><em>Birth Certificate: </em><a href="{{request.user.birth_cert.url}}">Download Birth Certificate</a></p><br/>
+    {% endif %}
+    <button class="btn btn-outline-success my-2 my-sm-0" type="button"><a href="{% url 'newuser' %}">Edit Profile</a></button>
+
+    <br/><br/>
+    <h4>Book View History</h4>
+    <p>{{request.session.get_expiry_age}}</p>
+    {% for book_id,book_title in request.session.viewed_books %}
+        <p><em>Book Title: </em><a href='books/{{book_id}}' ><b>{{book_title}}</b></a></p>
+    {% empty %}
+     <b>There are no recently viewed Books</b>
+    {% endfor %}
+    <h4>Search History</h4>
+    {% for search_text,search_field in request.session.search_history %}
+        <a href="{% url 'Book_Search' %}?search={{search_text}}&search_in={{search_field}}"><p><b>{{search_text|upper}}  </b><em>  In Field {% if search_field is 1 %} Title {% else %} Contributors {% endif %}</em></p></a>
+    {% empty %}
+     <b>There are no Search History</b>
+    {% endfor %}
+{% else %}
+<span>You are Not Logged in Yet Click to login
+<a href="{% url 'accounts:login' %}">Click to Login</a></span>
+{% endif %}
+{% endblock %}

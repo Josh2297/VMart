@@ -1,0 +1,105 @@
+{% extends 'base.html' %}
+{% block customjavascript %}{% endblock %}
+{% block carousel %}{% endblock %}
+{% block adhead %}
+<style>
+    .bd-radius {border-radius:8px}
+    .bd-radius h5,h6 {font-weight:bolder;font: size 90%;}
+    .bold {font-weight:bold}
+
+    @media (min-width:769px){
+        .card {font-family:cursive}
+    }
+
+    @media (max-width:768px){
+    .card {font-family:'Times New Roman', Times, serif}
+    }
+
+    a {text-decoration:none}
+    a:hover {color:green}
+    a::after {color:red}
+</style>
+{% endblock %}
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-12 col-lg-8  border shadow bd-radius ps-2 personal">
+                <div class="border-bottom bd-radius"><h5 class="text-primary">Profile</h5></div>
+                <div class="row ps-lg-2 ps-0 my-2 flex-nowrap" style="overflow-x:auto">
+                    <div class="col-12 col-md-6">
+                        <div class="card mb-2 rounded-3 shadow-sm border-none" style="white-space:nowrap;overflow-x:auto">
+                            <div class="card-body px-0 py-0">
+                                <div class="card-header py-0 text-primary"><h6>Personal Information</h6></div>
+                                {% if user.profile_pic %}
+                                <img class="card-img-top w-25 float-end rounded-pill" alt="Profile Picture" height="60" width="20" src={{user.profile_pic.url}}/>
+                                {% endif %}
+                                <div class="card-body">
+                                    <ul class="list-unstyled">
+                                        <li><p><span class="bold">Username: </span> {{user.username}}</p></li>
+                                        <li><p><span class="bold">Name: </span>{{user.first_name}} {{user.last_name}}</p></li>
+                                        <li><p><span class="bold">Email: </span>{{user.email}}</p></li>
+                                        <li><p><span class="bold">Phone Number: </span></span>{{user.phone_no}}</p></li>
+                                        <li><p><span class="bold">Address: </span><span class="text-small">{{user.home_address|default:'Not Available'}}</span></p></li>
+                                        {% if perms.products.add_product %}
+                                        <li><p><span class="bold">State of Origin: </span>{{user.state_of_origin}}</p></li>
+                                        {% endif %}
+                                        <li><p><span class="bold">State of Residence: </span>{{user.resident_state}}</p></li>
+                                    </ul>
+                                <div class="card-footer">
+                                    <div class="d-flex flex-column">
+                                    {% if perms.products.add_product %}
+                                    <a href="{% url 'partnership_update_information' user.id %}" class="card-link">Click Here to Update Profile</a>
+                                    {% else %}
+                                    <a href="{% url 'user_update_information' user.id %}" class="card-link">Click Here to Update Profile</a>
+                                    {% endif %}
+                                    <br/>
+                                    <!--Deactivate or Reactivate Account-->
+                                    {% if user.is_active %}
+                                    <a href="{%url 'deactivate_confirm' %}" class="card-link">Deactivate Account</a>
+                                    {% else %}
+                                    <a href="{%url 'deactivate_account' user.id %}" class="card-link">Reactivate Account</a>
+                                    {% endif %}
+                                    </div>
+                                </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6 other">
+                        <div class="card mb-2 rounded-3 shadow-sm border-none">
+                            <div class="card-body px-0 py-0">
+                                <div class="card-header py-0 text-primary"><h6>Other Information</h6></div>
+                                <div class="card-body" style="clear:buth">
+                                    <ul class="list-unstyled">
+                                        <li><p><span class="bold">Preferred State of Delivery: </span>{{user.region_of_del}}</p></li>
+                                        <li><p><span class="bold">Preferred Location of Delivery: </span>{{user.location_of_del}}</p></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div> 
+        <div class="col-12 col-lg-4 mx-0">
+            <div class="row w-100 mx-0">
+                <div class="col-12 w-100 flex-nowrap shadow bd-radius mb-2 ms-0 ms-lg-2 mt-lg-0 mt-2">
+                <h6 class="text-primary border-bottom pb-2">Order History</h6>
+                <p class="text-success bold text-center">View Details of an Order</p>
+                {% if orders %}
+                <ul>
+                {% for order in orders %}
+                <div class="d-flex flex-column flex-nowrap" style="overflow-x:auto">
+                    <li style="white-space:nowrap">Transaction ID: <a href="/orders/order/{{order.trxn_id}}/">{{order.trxn_id}}</a></li>
+                    <p style="white-space:nowrap"><span class="bold">Date of Order: </span>{{order.date}}</p>
+                    <p><span class="bold">Delivery_status: </span>{{order.delivery_status}}</p>
+                    </div>
+                {% endfor %}
+                </ul>
+                {% else %}
+                <p>No Order History Found</p>
+                {% endif %}
+                </div>
+    </div>
+</div>
+</div>
+{% endblock %}

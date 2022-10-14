@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block customjavascript %}
+<script>
+    function order() {
+        btn_submit=document.getElementById('btn-submit');btn_input=document.getElementById('track-input')
+        btn_submit.addEventListener('click',function () {
+             btn_submit.href=('/orders/order/'+btn_input.value)})
+    }
+
+    function billingmodal(){
+    document.getElementById('modal-btn').click()
+  }
+  window.addEventListener('load',billingmodal)
+  window.addEventListener('load',order)
+</script>
+{% endblock %}
+{% block adhead %} 
+<style>
+</style>{% endblock %}
+{% block content %}
+<div class="container mb-3 mt-2">
+    <div class="d-flex flex-column align-contents-center shadow" style="border-radius:4px">
+        <h4 class="text-primary text-center" style="font-weight:bold">Track An Order</h4>
+        <h6 class="text-muted text-center">Get Billing Details</h6>
+                  <div class="w-100">
+                        <form method="get" class="form text-center" >
+                                <input type="text text-dark py-1 border-none" class="w-50 text-center mx-auto form-control" placeholder="Enter Transaction ID" name="track-input" id="track-input">
+                                <a class="btn btn-success btn-sm mt-2" href="#" type="button" id="btn-submit">Order Details</a> 
+                        </form>
+                    </div>
+                  </div>
+                  </div>
+{% endblock %}

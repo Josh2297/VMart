@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+{% load i18n static %}
+{% load django_bootstrap5 %}
+{% bootstrap_css %}
+{% block customjavascript %}
+<script>
+  function uploadmodal(){
+    document.getElementById('upload-btn').click()
+  }
+  window.addEventListener('load',uploadmodal)
+</script>
+{% endblock %}
+{% bootstrap_messages %}
+{% load socialaccount %}
+{% block content %}
+<div class="container">
+  <div class="d-flex flex-column shadow align-items-center" style="border-radius:16px">
+      <h4 class="text-primary" style="font-weight:bold">Password Change Form</h4>
+      <button type="button" class="btn btn-success btn-sm" data-bs-toggle="modal" id="upload-btn" data-bs-target="#upload">
+          Upload Product
+        </button>
+        
+        <!-- The Modal -->
+        <div class="modal fade" id="upload" data-bs-backdrop="static">
+          <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+              <div class="modal-head mt-1 me-1">
+                <div class="d-flex flex-row">
+                  <a class="btn btn-danger btn-lg btn-close ms-auto" href="/products/"></a>
+                </div>
+              </div>
+              <!-- Modal body -->
+              <div class="modal-body">
+
+<div class="w-100 align-items-center mx-auto">
+  <div class="mx-auto justify-content-center border p-4" style="border-radius:25px">
+    <h2 style="font-family:Verdana, Geneva, Tahoma, sans-serif" ><span style="color:hotpink">VM</span><span style="color:tomato">art</span></h2>
+    <h6 class="text-primary"><strong>{{form_title}}</strong></h6> 
+{% if form.errors and not form.non_field_errors %}
+<p class="errornote">
+{% if form.errors.items|length == 1 %}{% translate "Please correct the error below." %}{% else %}{% translate "Please correct the errors below." %}{% endif %}
+</p>
+{% endif %}
+
+{% if form.non_field_errors %}
+{% for error in form.non_field_errors %}
+<p class="errornote">
+    {{ error }}
+</p>
+{% endfor %}
+{% endif %}
+
+<div id="content-main">
+<form method="post" id="product-upload-form" class="form" enctype="multipart/form-data">
+    {% csrf_token %}
+  {% bootstrap_form form %}
+  <div class="d-flex flex-row">
+    <a class="btn btn-danger bt-sm me-auto" href="/products/">Return</a>
+    <button class="btn btn-success btn-sm ms-auto" type="submit">Add Product</button>
+    </div>
+  </form>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+           
+</div>
+</div>
+</div>
+</div>
+{% endblock %}

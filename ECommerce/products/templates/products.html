@@ -1,0 +1,177 @@
+<!doctype html>
+{% extends 'base.html' %}
+{% load static %}
+{% block adhead %}
+<style>
+    /* Hide scrollbar for Chrome, Safari and Opera */
+.scroll :-webkit-scrollbar {
+  display:none;
+}
+</style>
+{% endblock %}
+{% block content %} 
+<div class="container-fluid mt-0">
+  <div class="food_stuffs">
+    {% if yam %}
+      <div id="Yam">
+        <div class="d-flex text-decoration-none border-none">
+            <a href="categories/yam/" class="text-decoration-none"><h4 class="text-primary">Yams</h4></a>
+        </div>
+    <div class="row mt-0 flex-nowrap gap-md-0" style="overflow-x:auto;margin-left:-25px;margin-top:-25px;margin-right:-25px">
+        {% for y in yam %}
+        <div class="col-6 col-sm-4 col-md-3 col-lg-2">
+            <div class="card mb-2 rounded-3 shadow-sm border-none">
+                <img class="card-img-top" alt="Card image" height="115" src={{y.product_picture.url}}/>
+                <div class="card-body px-0 py-0">
+                    <ul class="list-unstyled">
+                    <li><p class="text-small my-0 py-0"><span class="badge bg-success rounded-pill">Status:Available</span></p></li>
+                    <li class="text-center navhover"><h5 class="card-title my-0 py-1" style="text-decoration:solid;color:green"><b>{{y.product_name}}</b></h5>
+                      {% if y.size %}<span class="badge rounded-pill bg-danger float-end" id="size"><b>{{y.size|title}}</b></span>
+                      {% elif y.weight %}<span class="badge rounded-pill bg-danger float-end" id="size"><b>{{y.weight|title}} Kg</b></span>
+                      {% endif %}</li>
+                    <li><h6 class="card-title price-card-title my-0 py-1 text-small " style="font-weight:bold">Price: <span style="text-decoration:line-through">N</span><span>{{y.price|default:'None'}}</span></h6></li>
+                    {% if y.discount %}
+                    <li><p class="text-danger text-small my-0 py-0 bold">-{{y.discount}}%</p></li>
+                    {% elif y.original_price %}
+                    <li><p class="text-muted text-small my-0 py-0 bold" style="text-decoration:line-through">N{{y.original_price}}</p></li>
+                    {% else %}
+                    <li><p class="text-danger text-small my-0 py-0">-0%</p></li>
+                    {% endif %}
+                  <hr class="mt-0 mb-1"/>
+                  <li id="{{y.product_name}}{{y.id}}" product="{{y.product_name}}" size="{{y.size}}">
+                    <div class="d-flex w-50 mx-auto mb-0"><a class="card-link buttoninject"  href="#1"><span class="badge rounded-pill bg-primary">Add to Cart</span></a></div>
+                  </li>
+                  {% if request.user.is_staff %}
+                  <hr class="mt-2 mb-1"/>
+                      <li ><a href="/products/update/{{y.id}}" class="text-center my-0 py-0 nav-link navhover">Update Product</a></li>
+                  {% elif perms.products.change_product and request.user.id == y.creator.id %}
+                    <li><a href="/products/update/{{y.id}}" class="text-center my-0 py-0 nav-link navhover">Update Product</a></li>
+                      {% endif %}
+                    </ul>
+                </div>
+        </div>
+        </div>
+        {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+    <!--Rice Section-->
+    {% if Rice %}
+    <div id="Rice">
+      <div class="d-flex text-decoration-none border-none">
+          <a href="categories/rice/" class="text-decoration-none"><h4 class="text-primary">Rice</h4></a>
+      </div>
+  <div class="row mt-0 flex-nowrap gap-md-0" style="overflow-x:auto;margin-left:-25px;margin-top:-25px;margin-right:-25px">
+      {% for rice in Rice.rice_1 %}
+      <div class="col-6 col-sm-4 col-md-3 col-lg-2">
+          <div class="card mb-2 rounded-3 shadow-sm border-none">
+              <img class="card-img-top" alt="Card image" height="115" src={{rice.product_picture.url}}/>
+              <div class="card-body px-0 py-0">
+                  <ul class="list-unstyled">
+                  <li><p class="text-small my-0 py-0"><span class="badge bg-success rounded-pill">Status:Available</span></p></li>
+                  <li class="text-center navhover"><h5 class="card-title my-0 py-1" style="text-decoration:solid;color:green"><b>{{rice.product_name}}</b></h5>
+                    {% if rice.size %}<span class="badge rounded-pill bg-danger float-end" id="size"><b>{{rice.size|title}}</b></span>
+                    {% elif rice.weight %}<span class="badge rounded-pill bg-danger float-end" id="size"><b>{{rice.weight|title}}</b></span>
+                    {% endif %}</li>
+                  <li><h6 class="card-title price-card-title my-0 py-1 text-small " style="font-weight:bold">Price: <span style="text-decoration:line-through">N</span><span>{{rice.price|default:'None'}}</span></h6></li>
+                  {% if rice.discount %}
+                  <li><p class="text-danger text-small my-0 py-0 bold">-{{rice.discount}}%</p></li>
+                  {% elif rice.original_price %}
+                  <li><p class="text-muted text-small my-0 py-0 bold" style="text-decoration:line-through">N{{rice.original_price}}</p></li>
+                  {% else %}
+                  <li><p class="text-danger text-small my-0 py-0">-0%</p></li>
+                  {% endif %}
+                <hr class="mt-0 mb-1"/>
+                <li id="{{rice.product_name}}{{rice.id}}" product="{{rice.product_name}}" size="{{rice.size}}">
+                  <div class="d-flex w-50 mx-auto mb-0"><a class="card-link buttoninject"  href="#1"><span class="badge rounded-pill bg-primary">Add to Cart</span></a></div>
+                </li>
+                {% if request.user.is_staff %}
+                <hr class="mt-2 mb-1"/>
+                    <li ><a href="/products/update/{{rice.id}}" class="text-center my-0 py-0 nav-link navhover">Update Product</a></li>
+                {% elif perms.products.change_product and request.user.id == y.creator.id %}
+                  <li><a href="/products/update/{{rice.id}}" class="text-center my-0 py-0 nav-link navhover">Update Product</a></li>
+                    {% endif %}
+                  </ul>
+              </div>
+      </div>
+      </div>
+      {% endfor %}
+      </div>
+  </div>
+  {% endif %}
+  <!--End of Rice Section-->
+    </div>
+    <!--Fruits Section-->
+    {% if fruits %}
+    <div id="FruitsCategory">
+        <div class="d-flex text-decoration-none border-none">
+            <a href="categories/fruits/" class="text-decoration-none"> <h4 class="text-primary" id="Fruits">Fruits</h4></a>
+        </div>
+    <div class="row mt-0 flex-nowrap gap-md-0" style="overflow-x:auto;margin-left:-25px;margin-top:-25px;margin-right:-25px">
+        {% for fruit in fruits.fruits_1 %}
+        <div class="col-6 col-sm-4 col-md-3 col-lg-2">
+            <div class="card mb-2 rounded-3 shadow-sm border-none">
+                <img class="card-img-top" alt="Card image" height="115" src={{fruit.product_picture.url}}/>
+                <div class="card-body px-0 py-0">
+                    <ul class="list-unstyled">
+                    <li><p class="text-small my-0 py-0"><span class="badge bg-success rounded-pill">Status:Available</span></p></li>
+                    <li class="text-center navhover"><h5 class="card-title my-0 py-1" style="text-decoration:solid;color:green"><b>{{fruit.product_name}}</b></h5></li>
+                    <li><h6 class="card-title price-card-title my-0 py-1 text-small " style="font-weight:bold">Price: <span style="text-decoration:line-through">N</span><span>{{fruit.price|default:'None'}}</span></h6></li>
+                    {% if fruit.discount %}
+                    <li><p class="text-danger text-small my-0 py-0 bold">-{{fruit.discount}}%</p></li>
+                    {% elif fruit.original_price %}
+                    <li><p class="text-muted text-small my-0 py-0 bold" style="text-decoration:line-through">N{{fruit.original_price}}</p></li>
+                    {% else %}
+                    <li><p class="text-danger text-small my-0 py-0">-0%</p></li>
+                    {% endif %}
+                  <hr class="mt-0 mb-1"/>
+                  <li id="{{fruit.product_name}}{{fruit.id}}" product="{{fruit.product_name}}" size="{{fruit.size}}">
+                    <div class="d-flex w-50 mx-auto mb-0"><a class="card-link buttoninject"  href="#1"><span class="badge rounded-pill bg-primary">Add to Cart</span></a></div>
+                  </li>
+                  {% if request.user.is_staff %}
+                  <hr class="mt-2 mb-1"/>
+                      <li ><a href="/products/update/{{fruit.id}}" class="text-center my-0 py-0 nav-link navhover">Update Product</a></li>
+                  {% elif perms.products.change_product and request.user.id == fruit.creator.id %}
+                  <hr class="mt-2 mb-1"/>
+                  <li><a href="/products/update/{{fruit.id}}" class="text-center my-0 py-0 nav-link navhover">Update Product</a></li>
+                  {% endif %}
+                </ul>
+                </div>
+        </div>
+        </div>
+        {% endfor %}
+        </div>
+        <div class="row mt-0 flex-nowrap gap-md-0" style="overflow-x:auto;margin-left:-25px;margin-top:-25px;margin-right:-25px">
+            {% for fruit in fruits.fruits_2 %}
+            <div class="col-6 col-sm-4 col-md-3 col-lg-2">
+                <div class="card mb-2 rounded-3 shadow-sm border-none">
+                    <img class="card-img-top" alt="Card image" height="115" src={{fruit.product_picture.url}}/>
+                    <div class="card-body px-0 py-0">
+                        <ul class="list-unstyled">
+                        <li><p class="text-small my-0 py-0"><span class="badge bg-success rounded-pill">Status:Available</span></p></li>
+                        <li class="text-center navhover"><h5 class="card-title my-0 py-1" style="text-decoration:solid;color:green"><b>{{fruit.product_name}}</b></h5></li>
+                      <li><h6 class="card-title price-card-title my-0 py-1 text-small " style="font-weight:bold">Price: <span style="text-decoration:line-through">N</span><span>{{fruit.price|default:'None'}}</span></h6></li>
+                      {% if fruit.discount %}
+                      <li><p class="text-danger text-small my-0 py-0 bold">-{{fruit.discount}}%</p></li>
+                      {% elif fruit.original_price %}
+                      <li><p class="text-muted text-small my-0 py-0 bold" style="text-decoration:line-through">N{{fruit.original_price}}</p></li>
+                      {% else %}
+                      <li><p class="text-danger text-small my-0 py-0">-0%</p></li>
+                      {% endif %}
+                      <hr class="mt-0 mb-1"/>
+                      <li id="{{fruit.product_name}}{{fruit.id}}" product="{{fruit.product_name}}" size="{{fruit.size}}">
+                        <div class="d-flex w-50 mx-auto mb-0"><a class="card-link buttoninject"  href="#1"><span class="badge rounded-pill bg-primary">Add to Cart</span></a></div>
+                      </li>
+                      {% if request.user.is_staff %}
+                      <hr class="mt-2 mb-1"/>
+                      <li ><a href="/products/update/{{fruit.id}}" class="text-center my-0 py-0 nav-link navhover">Update Product</a></li>
+                      {% endif %}
+                        </ul>
+                    </div>
+            </div>
+            </div>
+            {% endfor %}
+            </div>
+            </div>
+            {% endif %}
+            {% endblock %}

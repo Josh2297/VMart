@@ -1,0 +1,58 @@
+<!doctype html>
+{% extends 'base.html' %}
+{% load static %}
+{% block adhead %}
+<style>
+    /* Hide scrollbar for Chrome, Safari and Opera */
+.scroll :-webkit-scrollbar {
+  display:none;
+}
+</style>
+{% endblock %}
+{% block carousel %} {% endblock %}
+{% block content %} 
+<div class="container-fluid mt-0">
+    <div id="{{category}}">
+        <div class="d-flex text-decoration-none border-none">
+            <a href="#" class="text-decoration-none"> <h6 class="text-primary">{{category}}</h6></a>
+        </div>
+        <div class="row mt-0 gap-md-0" style="margin-left:-25px;margin-top:-25px;margin-right:-25px">
+            {% for object in product_category %}
+            <div class="col-6 col-sm-4 col-md-3 col-lg-2">
+                <div class="card mb-2 rounded-3 shadow-sm border-none">
+                    <img class="card-img-top" alt="{{object.product_name}}" height="115" src={{object.product_picture.url}}/>
+                    <div class="card-body px-0 py-0">
+                        <ul class="list-unstyled">
+                        <li><p class="text-small my-0 py-0"><span class="badge bg-success rounded-pill">Status:Available</span></p></li>
+                        <li class="text-center navhover"><h5 class="card-title my-0 py-1" style="text-decoration:solid;color:green"><b>{{object.product_name|title}}</b></h5>
+                            {% if object.size %}<span class="badge rounded-pill bg-danger float-end" id="size"><b>{{object.size|title}}</b></span>
+                            {% elif object.weight %}<span class="badge rounded-pill bg-danger float-end" id="size"><b>{{object.weight|title}} Kg</b></span>
+                            {% endif %}</li>
+                        <li><h6 class="card-title price-card-title my-0 py-1 text-small " style="font-weight:bold">Price: <span style="text-decoration:line-through">N</span><span>{{object.price|default:'None'}}</span></h6></li>
+                      {% if object.discount %}
+                      <li><p class="text-danger text-small my-0 py-0" style="text-decoration:line-through">-{{object.discount}}%</p></li>
+                      {% elif object.original_price %}
+                      <li><p class="text-muted text-small my-0 py-0" style="text-decoration:line-through">{{object.original_price}}</p></li>
+                      {% else %}
+                      <li><p class="text-danger text-small my-0 py-0" style="text-decoration:line-through">0%</p></li>
+                      {% endif %}
+                      <hr class="mt-0 mb-1"/>
+                      <li id="{{object.product_name}}{{object.id}}" product="{{object.product_name}}" size="{{object.size}}">
+                        <div class="d-flex w-50 mx-auto mb-0"><a class="card-link buttoninject"  href="#1"><span class="badge rounded-pill bg-primary">Add to Cart</span></a></div>
+                      </li>
+                      {% if request.user.is_staff %}
+                      <hr class="mt-2 mb-1"/>
+                          <li ><a href="/products/update/{{object.id}}" class="text-center my-0 py-0 nav-link navhover">Update Product</a></li>
+                          {% endif %}
+                        </ul>
+                    </div>
+            </div>
+            </div>
+            {% empty %}
+            <h6 class="text-center">No Item Found</h6><br/>
+            <p class="text-primary text-center"><a href="/products/">Return To Product Page</a></p>
+            {% endfor %}
+            </div>
+        </div>
+        </div>
+{% endblock %}

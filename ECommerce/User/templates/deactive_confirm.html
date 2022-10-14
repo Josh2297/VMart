@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block customjavascript %}{% endblock %}
+{% block carousel %}{% endblock %}
+{% block content %}
+<div class="container mt-3">
+    <div class="d-flex flex-column align-items-center">
+        <h4 class="text-danger"> Are U Sure You Want to Deactivate Account</h4>
+        <p>Deactivating your Account will make it impossible for you to login into the account next time.</p>
+        <p class="text-secondary">You can always reactivate your account anytime</p>
+        </div>
+        <div class="d-flex flex-row">
+            <a href="/profile/" class="btn btn-info">Return</a>
+            <a href="{% url 'deactivate_account' user.id %}" class="btn btn-danger ms-auto">Deactivate Account</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

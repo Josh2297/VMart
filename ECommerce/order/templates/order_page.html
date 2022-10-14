@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block customjavascript %}{% endblock %}
+{% block adhead %} 
+<style>
+    @media (min-width:769px){
+        .container h6,p {font-family:cursive}
+    }
+    @media (max-width:768px){
+        .container h6,p {font-family:'Times New Roman', Times, serif}
+    }
+    a:hover {color:green}
+    a::after {color:red}
+    .card-body,.card-header {white-space:nowrap;overflow-x:auto;font-size:95%}
+</style>
+
+<link href="{% static 'order/order_page.css' %}" rel="stylesheet">
+{% endblock %}
+{% block content %}
+<div class="container">
+    <div class="row">
+    <div class="col-12 mb-3 mb-lg-4">
+        <div class="row py-2">
+        <div class="col-12 col-lg-6">
+        {% if order %}
+        <div class="card rounded-3 shadow">
+        <div class="card-header"><h4 class="text-primary">Transaction ID: {{order.trxn_id}} </h4></div>
+        <div class="card-body">
+        <p>Name On Order: {{order.buyer.first_name}} {{order.buyer.last_name}}</p>
+        <p>Date of Order: {{order.date}}</p>
+        <p>Total Value: NGN {{order.total}}</p>
+        <p>Payment Status: {% if order.payment_status ==  'successful' %}<span class="badge bg-success rounded-pill">{{order.payment_status}}</span>{% else %}
+            <span class="badge bg-danger rounded-pill">{{order.payment_status}}</span>{% endif %}</p>
+        <p>Payment ID: {{order.payment_id}}</p>
+        <p class='text-muted text-small'>Payment ID is used by the merchant To Track Transactions</p>
+        <p>Payment Method: {{order.payment_method}}</p>
+        <p>Date of Payment: {{order.payment_date}}</p>
+        </div>
+        </div>
+        </div>
+        <div class="col-12 col-lg-6 pt-2 pt-md-0">
+            <div class="card rounded-3 shadow h-100">
+            <div class="card-header"><h5 class="text-primary">Delivery Information</h5></div>
+            <div class="card-body">
+            <p>Name on Delivery: {{billing.first_name}} {{billing.last_name}}</p> 
+            <p>Phone Number: +234{{billing.phone_no}}</p>
+            <p>Email: {{billing.email|default:'No Email provided'}}</p>
+            <p>Delivery Method: {{billing.delivery_method|title}}</p>
+            <p>Delivery Address: {{billing.address}} {{billing.city}} {{billing.state}}</p>
+            <p>Delivery Status: {% if order.delivery_status == 'delivered' %}<span class="badge bg-success rounded-pill">{{order.delivery_status}}</span>{% else %}
+                <span class="badge bg-danger rounded-pill">{{order.delivery_status}}</span>{% endif %}</p>
+            <p class="text-muted text-small">Note: Delivery Status May Take Time to Be Updated</p>
+        </div>
+        </div>
+        {% endif %}
+        </div>
+        </div>
+        </div>
+        </div>
+        <p class="text-danger text-end">Do you have a Problem/Complaint with This Order? <a href="#" class="text-decoration-none">Contact Us</a></p>
+        <div class="row shadow">
+            <div><h6 class="text-primary" style="font-weight:bold">Products in Order</h6></div>
+    <div class="col-12 flex-nowrap" style="overflow-x:auto" >
+        <table class="table table-hover table-sm table-striped table-bordered table-lg prodtb">
+            <thead><tr class="text-center"><th >Product</th><th>Quantity</th><th >Unit Price (in Naira)</th><th>Price (in Naira)</th></tr></thead>
+            <tbody>
+            {% for order in orders %}
+                <tr class="text-center"><td>{{order.product}}</td><td>{{order.quantity}}</td><td>{{order.unit_price}}</td><td>{{order.price}}</td></tr>
+            {% endfor %}
+            <tr class="text-center" style="font-weight:bold"><td colspan="3">Total</td><td>{{order.total}}</td></tr>
+        </tbody>
+        </table>
+    </div>
+    </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block content %}
+<br/>
+<p><strong>{% translate "You Have Logged Out of The Site. Do Visit Us Next Time" %}</strong></p>
+
+<p><a href="{% url 'accounts:login' %}">{% translate 'Log in again' %}</a></p>
+
+{% endblock %}

@@ -1,0 +1,8 @@
+@media (max-width: 576px) {
+    .orderwidth {width:100%}
+    /*.orderwidth table {font-size:75%}*/
+}
+
+@media (min-width:769px) {
+    /*.orderwidth {width:85%}*/
+}

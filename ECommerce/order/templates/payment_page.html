@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block adhead %}
+<style>
+    /* #order p,h3 {font-weight:bold}
+    #billing p,h3 {font-weight:bold}*/
+    @media (max-width:768){
+    #paymenttable {font-size:90%}
+    #paymenttable td,th {white-space:nowrap;overflow-x:auto}
+    #paymenttable th {text-align:center;}
+    }
+</style>
+<script>
+    function init(){
+        sessionStorage.clear()
+    }
+    window.addEventListener('load',init)
+</script>
+{% endblock %}
+{% block carousel %} {% endblock %}
+{% block content %} 
+<div class="container-fluid mt-2 mx-0 w-100">
+    <div><p class="notice text-info">Important Notice: Orders And Transactions Can Be Found On the My-Profile Section</p>
+        <p>Contact us with the Email For Complaints or Enquires: <a href="http://joshoke111@gmail.com">Contact Email</a></p>
+        <p>The Unique Transaction ID Can be used to Track the status of the Delivrery</p>
+    <a href="/products/" class="text-decoration-none text-danger">Return to Homepage</a>
+    </div>
+    <div class="row w-100 mt-2 mb-2">
+        <div class="col-12 col-lg-5 mt-2 mt-md-1 border ms-0 me-0 me-lg-1" id="order">
+            <h3 class="text-primary text-bold">Orders</h3>
+            <p class="text-primary" style="white-space:nowrap;overflow-x:auto">Transaction ID:{{order_model.trxn_id}}</p>
+            <p class="text-bold">Payment Status: {% if status == "successful" %}<span class="badge rounded-pill bg-success">{{status|title}}</span>{% else %} <span class="badge rounded-pill bg-danger">{{status|title}}</span>{% endif %}</p>
+            <p>Total Amount: NGN {{order_model.amt_payable}} </p>
+            <p>Date: {{order_model.date}}</p>
+            <h6 class="text-primary caption-top" style="font-weight:bold">Products in Order</h6>
+            <div class="flex-nowrap mt-0 pt-0" style="overflow-x:auto">
+            <table class="table table-hover table-striped table-bordered table-lg" style="font-size:90%" id="paymenttable">
+                <thead><tr class="text-center"><th>Product</th><th>Quantity</th><th style="white-space:nowrap;overflow-x:auto">Unit Price (in Naira)</th><th style="white-space:nowrap;overflow-x:auto">Price (in Naira)</th></tr></thead>
+                <tbody>
+                {% for order in orders %}
+                    <tr class="text-center"><td style="white-space:nowrap;overflow-x:auto">{{order.product}}</td><td style="white-space:nowrap;overflow-x:auto">{{order.quantity}}</td><td style="white-space:nowrap;overflow-x:auto">{{order.unit_price}}</td><td>{{order.price}}</td></tr>
+                {% endfor %}
+                <tr class="text-center" style="font-weight:bold"><td colspan="3">Total</td><td style="white-space:nowrap;overflow-x:auto">NGN {{order_model.total}}</td></tr>
+            </tbody>
+            </table>
+            </div>
+        </div>
+        <div class="col-12 col-lg-5 ms-lg-1 border mt-2 mt-lg-0  ms-0 ms-lg-1 me-0" id="billing" style="border-radius:8px">
+            <h3 class="text-primary text-bold">Billing Address</h3>
+            <p>Full Name: {{billing_model.first_name}} {{billing_model.last_name}}</p>
+            <p>Telehone Number: +234{{billing_model.phone_no}}</p>
+            {% if billing_model.email %}
+            <p>Email: {{billing_model.email}}</p>
+            {% endif %}
+            <p>Delivery Method: {{billing_model.delivery_method|title}}</p>
+            <p>Address: {{billing_model.address}}</p>
+            <p>State: {{billing_model.state}}</p>
+            <p>City: {{billing_model.state}}</p>
+            <p class="text-primary">Delivery Status: {{order_model.delivery_status}}</p>
+        </div>
+    </div>
+</div>
+{% endblock %}

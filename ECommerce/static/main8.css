@@ -1,0 +1,110 @@
+#legacyname {font-family:Arial, Helvetica, sans-serif;text-decoration:double}
+
+.navhover :hover {color:red}
+
+
+.customradius {border-radius:25px}
+
+.mutecart :hover {color:red}
+
+.bd-placeholder-img {
+    font-size: 1.125rem;
+    text-anchor: middle;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+  }
+
+  @media (min-width: 768px) {
+    .bd-placeholder-img-lg {
+      font-size: 3.5rem;
+    }
+  }
+
+
+.b-example-divider {
+  height: 3rem;
+  background-color: rgba(0, 0, 0, .1);
+  border: solid rgba(0, 0, 0, .15);
+  border-width: 1px 0;
+  box-shadow: inset 0 .5em 1.5em rgba(0, 0, 0, .1), inset 0 .125em .5em rgba(0, 0, 0, .15);
+}
+
+.form-control-dark {
+  color: #fff;
+  background-color: var(--bs-dark);
+  border-color: var(--bs-gray);
+}
+.form-control-dark:focus {
+  color: #fff;
+  background-color: var(--bs-dark);
+  border-color: #fff;
+  box-shadow: 0 0 0 .25rem rgba(255, 255, 255, .25);
+}
+
+.bi {
+  vertical-align: -.125em;
+  fill: currentColor;
+}
+
+.text-small {
+  font-size: 85%;
+}
+
+.dropdown-toggle {
+  outline:cornsilk;
+}
+
+#product-update-form>input {
+  margin-top:10px;margin-bottom:10px;background-color:red
+}
+
+@media (max-width: 576px) {
+  /*.sticky-top button svg,use {display:none;}*/
+  #logo {display:none;}
+  .sticky-top #categories {display:none}
+  #ssli {display:none}
+  #legacyname {font-size:100%;margin-right:0px}
+  /* .sticky-top #searchmain {margin-left:0px;margin-right:0px;display:inline-flex;flex-wrap:wrap}*/
+  #cartt {display:none} 
+  #navdrop #home,#help,#partner {display:none}
+  #mycartdropdown {font-size:90%}
+  #navdrop {font-size:85%}
+  #size {font-size:60%}
+  main #overcar {overflow-x:auto;overflow-y:hidden;flex-wrap:nowrap;}
+  .personal .card-body {overflow-x:auto;white-space:nowrap}
+  .personal img {display:none}
+  #carttable {font-size:90%}
+  .cursive {font-family:Arial, Helvetica, sans-serif}
+  .navbar-brand,#legacyname {margin:0px;padding:0px}
+}
+
+@media (min-width:577px) and (max-width:910px ){
+  .sticky-top img {display:none}
+  #navdrop #help,#partner {display:none}
+ main #overcar {overflow-x:scroll;overflow-y:hidden;flex-wrap:nowrap}
+  #cartt {display:none;}
+}
+
+@media (min-width:769px) {
+  #smproceed #ss {display:none;}
+  #smnavdiv {display:none}
+  #smnavcat {display:none;}
+  .cursive {font-family:cursive}
+}
+
+.text-smaller {font-size:75%}
+
+.zeropd {padding-left:0;}
+
+.bold {font-weight:bold}
+
+
+#smcategories,#fscat {font-size:90%}
+
+#searchmain input {width:80%}
+#searchmain button {width:20%}
+
+#smcategories a:hover {background-color:lightgray;}
+
+

@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block customjavascript %}{% endblock %}
+{% block carousel %}{% endblock %}
+{% block content %}
+<div class="container mt-3">
+    <div class="d-flex flex-column">
+        <h4 class="text-danger"> Delete Product</h4>
+        <p class="text-warning bold">Note: Deleting this Product Will Remove it Completely From Our Database</p>
+        <p class="text-secondary bold">You can always Re-upload The Product Anytime</p>
+        <h4 class="text-primary bold">Product Name: {{product.product_name|title}}</h4>
+        <p class="text-muted bold">Product category: {{product.product_category|title}}</p>
+        {% if product.size %}
+        <p class="text-muted bold">Product Size: {{product.size|title}}</p>
+        {% elif product.weight %}
+        <p class="text-muted bold">Product Weight: {{product.weight|title}}</p>
+        {% endif %}
+        <p class="text-muted bold">Product Price: {{product.price}} (In Naira)</p>
+        </div>
+        <div class="d-flex flex-row">
+            <a href="{% url 'manage_products' user.id %}" class="btn btn-info">Return</a>
+            <a href="{% url 'delete_product' product.id %}" class="btn btn-danger ms-auto">Delete Product</a>
+        </div>
+    </div>
+{% endblock %}

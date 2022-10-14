@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+{% block customjavascript %}{% endblock %}
+{% block carousel %}{% endblock %}
+{% block adhead %} 
+<style>
+    .container h6,p {font-family:'Times New Roman', Times, serif}
+</style>
+{% endblock %}
+{% block content %}
+<div class="container">
+    <div class="d-flex flex-column mb-3 pb-2">
+    <h4 class="text-primary text-center">{{title}}</h4>
+            <p class="text-muted text-center">Uploaded Products</p>
+            <p class="text-primary">Note: 1. If a Product is Not Availability at the moment Then the Availbility Should be Turned off By Clicking the Update Button For That
+                Product and Scroll to Availability Status and click "NO" this will make the product not to appear on the products page
+            </p>
+            <p class="text-primary">2. When A Product can no longer be made available such product should be deleted from the Database
+            . Deleted Products Need to Be Re-entered Next time.</p>
+            <div class="d-flex flex-row flex-wrap ms-auto justify-content-end">
+                <form class="form" action="{% url 'search_manage' %}" method="get">
+                    <div class="input-group">
+                        <input type="text" placeholder="Search Product" class="form-control" value="" name="search" />
+                        <button class="btn btn-success btn-sm" type="submit"\><i class="fa fa-search" aria-hidden="true"></i> Search</button>
+                    </div>
+                </form>
+            </div>
+            {% if products %}
+                {% for product in products %}
+                    <div class="d-flex flex-column py-1 my-4 pb-3 shadow" style="white-space:nowrap;overflow-x:auto">
+                        <p class="bold ms-2">Product Name: <a href="#" class="text-decoration-none text-info bold">{{product.product_name|title}}</a></p>
+                        <p class="text-muted bold ms-2">Product Category: {{product.product_category|title}}</p>
+                        {% if product.size %}
+                        <p class="text-muted bold ms-2">Product Size: {{product.size|title}}</p>
+                        {% elif product.weight %}
+                        <p class="text-muted bold ms-2">Product Weight: {{product.weight|title}}</p>
+                        {% endif %}
+                        <p class="text-muted bold ms-2">Product Name: N{{product.price}} (Price In Naira)</a></p>
+                        {% if product.availability == 'yes' %}
+                        <p class="bold ms-2">Availability Status: <span class="badge bg-success rounded-pill">Available</span></p>
+                        {% elif product.availability == 'no' %}
+                        <p class="bold ms-2">Availability Status: <span class="badge bg-danger rounded-pill">Not Available</span></p>
+                        {% elif product.availability == 'pending' %}
+                        <p class="bold ms-2">Availability Status: <span class="badge bg-warning rounded-pill">Pending</span></p>
+                        {% else %}
+                        <p class="bold ms-2">Availability Status: <span class="badge bg-danger rounded-pill">No Information</span></p>
+                        {% endif %}
+                        <div class="d-flex flex-row">
+                            <a href="{% url 'delete_product_confirm' product.id %}" class="btn btn-danger btn-sm me-auto ms-lg-3 ms-1">Remove Product</a>
+                            <a href="{% url 'product_update' product.id %}" class=" btn btn-primary btn-sm ms-auto me-lg-3 me-1">Update Product</a>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <div class="d-flex flex-column w-100">
+                    <h2 class="text-center">No Product Found</h2>
+                    <a class="btn btn-sm btn-danger me-auto" href="{% url 'manage_products' user.id %}">Return</a>
+                </div>
+            {% endif %}
+            </div>
+            <div class="d-flex flex-row mt-5 justify-content-center">
+            {% if is_paginated %}
+            <ul class="pagination">
+                {% if page_obj.has_previous %}
+                <li class="page-item"><a class="page-link" href="?page={{page_obj.previous_page_number}}">&laquo; Previous</a></li>
+                {% else %}
+                <li class="page-item disabled"><a href="#" class="page-link"><span>&laquo; Previous</span></a></li>
+                {% endif %}
+                {% for i in paginator.page_range %}
+                {% if page_obj.number == i %}
+                    <li class="page-item active"><span class="sr-only page-link">{{i}}</span></li>
+                {% else %}
+                    <li class="page-item"><a href="?page={{i}}" class="page-link">{{i}}</a></li>
+                {% endif %}
+                {% endfor %}
+                {% if page_obj.has_next %}
+                    <li class="page-item"><a href="?page={{page_obj.next_page_number }}" class="page-link">Next &raquo;</a></li>
+                {% else %}
+                    <li class="page-item disabled"><span class="page-link">Next &raquo;</span></li>
+                {% endif %}
+            </ul>
+            {% endif %}
+            </div>
+    </div>
+{% endblock %}

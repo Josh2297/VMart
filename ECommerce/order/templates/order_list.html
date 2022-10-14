@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block customjavascript %}{% endblock %}
+{% block adhead %} 
+<style>
+    .container h6,p {font-family:'Times New Roman', Times, serif}
+</style>
+{% endblock %}
+{% block content %}
+<div class="container">
+    <div class="d-flex flex-column pt-3 ps-3 shadow">
+        <h6 class="text-primary">Order History</h6>
+        {% if orders %}
+        <ul>
+            {% for order in orders %}
+            <div class="d-flex flex-column" style="white-space:nowrap;overflow-x:auto">
+            <li>Transaction ID: <a href="/orders/order/{{order.trxn_id}}/">{{order.trxn_id}}</a>
+            <ul>
+                <li><p><span class="bold">Date of Order: </span>{{order.date}}</p></li>
+                <li><p><span class="bold">Delivery_status: </span>{{order.delivery_status}}</p></li>
+            </ul>
+            </li>
+        </div>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No Order History Found</p>
+    {% endif %}
+    </div>
+    </div>
+{% endblock %}
